@@ -1,44 +1,29 @@
 # Use the official Node.js image.
 FROM node:18 AS frontend
 
-# Set the working directory for the frontend.
 WORKDIR /app/frontend
-
-# Copy package.json and package-lock.json and install dependencies.
 COPY frontend/package.json .
 COPY frontend/package-lock.json .
 RUN npm install
-
-# Copy the frontend code.
 COPY frontend/ .
-
-# Build the SvelteKit application.
 RUN npm run build
 
-# Now switch to the backend stage
-FROM python:3.12-slim AS backend
-
-# Set the working directory for the backend.
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 WORKDIR /app/backend
-
-# Copy the requirements file and install dependencies.
-COPY backend/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the backend code.
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_LINK_MODE=copy
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --frozen --no-install-project --no-dev
 COPY backend/ .
-
-# Copy the built frontend files to the backend.
-COPY --from=frontend /app/frontend/build /app/frontend/build
-
-# Expose the FastAPI port.
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
+ENV PATH="/app/.venv/bin:$PATH"
+ENTRYPOINT []
 EXPOSE 8000
 
-# Install additional dependencies for running both backend and frontend
 RUN apt-get update && apt-get install -y curl
-
-# Set environment variables for the frontend
 ENV FRONTEND_PORT=5173
 
-# Command to start both the FastAPI and SvelteKit server
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 8000 --reload & npm --prefix /app/frontend run preview"]

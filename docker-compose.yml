@@ -8,6 +8,7 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./frontend:/app/frontend
+      - ./shared:/app/shared
     ports:
       - "8000:8000"  # FastAPI Port
       - "5173:5173"  # SvelteKit Port

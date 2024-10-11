@@ -19,10 +19,15 @@ This project is a template for a web application consisting of a **FastAPI** bac
 - **Backend**:
   - User authentication with email and password.
   - Token-based authentication using JWT (JSON Web Tokens).
+  - Database ORM with [PeeWee](https://github.com/coleifer/peewee)
+  - CORS middleware setup to accept data from the Sveltekit Application.
 
 - **Frontend**:
   - Login and registration pages.
   - Responsive design using TailwindCSS.
+
+- **Database**:
+  - SQLite Database which will be saved in /shared.
 
 ## Technologies
 
@@ -61,10 +66,11 @@ Follow the steps below to download the template and set up the project for local
    ```bash
    pip install -r requirements.txt
    ```
+   (I highly recommend using uv instead of pip/poetry etc.)
 
 4. Create a `.env` file in the backend directory and configure the following environment variables:
-    ```SECRET_KEY=sjdjefmmJSduasfksdfau8(/ZHJDAMKALdjwdwjsda)
-    ACCESS_TOKEN_EXPIRE_MINUTES = 43200
+    ```SECRET_KEY=
+    ACCESS_TOKEN_EXPIRE_MINUTES =
     ```
 
 ### Frontend

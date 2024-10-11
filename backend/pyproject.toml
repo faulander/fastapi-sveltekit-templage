@@ -9,4 +9,8 @@ dependencies = [
     "loguru>=0.7.2",
     "peewee>=3.17.6",
     "uvicorn>=0.31.0",
+    "bcrypt>=4.0.1",
+    "pyjwt>=2.8.0",
+    "python-multipart>=0.0.12",
+    "python-dotenv>=1.0.1",
 ]

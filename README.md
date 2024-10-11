@@ -1,6 +1,3 @@
-Sure! Below is the README file written in Markdown format.
-
-```markdown
 # Application Template
 
 This project is a template for a web application consisting of a **FastAPI** backend and a **SvelteKit** frontend. It provides a user authentication system with email and password login, as well as token-based authentication. The frontend is styled using **TailwindCSS** and includes login and registration pages.
